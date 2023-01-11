@@ -3,8 +3,9 @@ import { BD } from './db.js'
 import { PORT } from './config.js'
 
 
-const app = express()
+const app = express() //activamos express al servidor
 
+// insertamos nuestros permisos(cors)
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
@@ -13,6 +14,7 @@ app.use((req, res, next) => {
     next();
 });
 
+// creamos nuestras urls 
 app.get('/', async (req, res) => {
     const rows = await BD.query('SELECT * from peliculas')
     res.json(rows)

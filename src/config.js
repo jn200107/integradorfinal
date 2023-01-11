@@ -1,3 +1,4 @@
+// creamos nuestras puertos de ambiente y si no encuentra usara los que estan despues de ||
 export const PORT = process.env.PORT || 3001
 
 export const DB_HOST = process.env.DB_HOST || 'localhost'
