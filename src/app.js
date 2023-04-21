@@ -28,9 +28,9 @@ app.use((req, res, next) => {
 // creamos nuestras urls 
 
 app.get('/solicitud',(req,res)=>{
-    let sql='SELECT * FROM solicitudes'
+    // let sql='SELECT * FROM solicitudes'
 
-    BD.query(sql,(err,resuls)=>{
+    BD.query(('SELECT * FROM solicitudes'),(err,resuls)=>{
         if(err) throw err
         if (resuls.length>0){
             res.json(resuls)
@@ -38,6 +38,7 @@ app.get('/solicitud',(req,res)=>{
             res.send('no hay datos disponibles')
         }
     })
+
 
 })
 
