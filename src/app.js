@@ -1,14 +1,14 @@
 import express from 'express'
-import { PORT } from './config.js'
+import { DB_HOST, DB_NAME, DB_PASSWORD, DB_USER, PORT } from './config.js'
 import mysql from 'mysql'
 
 
 
 const conectBD = mysql.createConnection({
-    host: 'localhost',
-    user: 'root' ,
-    password: 'root',
-    database:'integrador'
+    host: DB_HOST,
+    user: DB_USER ,
+    password: DB_PASSWORD,
+    database:DB_NAME
 });
 
 
