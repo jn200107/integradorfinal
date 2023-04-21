@@ -15,5 +15,16 @@
     "dev": "nodemon src/app.js",
     "start": "node src/app.js"
   },
-  "license": "ISC"
+  "license": "ISC",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jn200107/integradorfinal.git"
+  },
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/jn200107/integradorfinal/issues"
+  },
+  "homepage": "https://github.com/jn200107/integradorfinal#readme",
+  "description": ""
 }
