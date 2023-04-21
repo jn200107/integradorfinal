@@ -1,15 +1,17 @@
 import express from 'express'
-import { DB_HOST, DB_NAME, DB_PASSWORD, DB_USER, PORT } from './config.js'
-import mysql from 'mysql'
+import { PORT } from './config.js'
+// import { DB_HOST, DB_NAME, DB_PASSWORD, DB_USER, PORT } from './config.js'
+// import mysql from 'mysql'
+import { BD } from './db.js'
 
 
 
-const conectBD = mysql.createConnection({
-    host: DB_HOST,
-    user: DB_USER ,
-    password: DB_PASSWORD,
-    database:DB_NAME
-});
+// const BD = mysql.createConnection({
+//     host: DB_HOST,
+//     user: DB_USER ,
+//     password: DB_PASSWORD,
+//     database:DB_NAME
+// });
 
 
 const app = express() //activamos express al servidor
@@ -28,7 +30,7 @@ app.use((req, res, next) => {
 app.get('/solicitud',(req,res)=>{
     let sql='SELECT * FROM solicitudes'
 
-    conectBD.query(sql,(err,resuls)=>{
+    BD.query(sql,(err,resuls)=>{
         if(err) throw err
         if (resuls.length>0){
             res.json(resuls)
@@ -53,7 +55,7 @@ app.post('/nueva-solicitud',(req,res)=>{
         comentario: req.body.comentario,
     }
 
-    conectBD.query(sql,solicitudOBJ,err=>{
+    BD.query(sql,solicitudOBJ,err=>{
         if (err) throw err
 
         res.send('solicitud añadida con exito')
@@ -66,7 +68,7 @@ app.put('/actualizar-solicitud/:id',(req,res)=>{
 
     const sql= `UPDATE solicitudes SET nombre ="${nombre}", correo="${correo}", telefono="${telefono}", solicitud="${solicitud}",comentario="${comentario}" where idsolicitudes = ${id.id}`
     
-    conectBD.query(sql, err =>{
+    BD.query(sql, err =>{
         if (err) throw err
 
         res.send('solicitud actualizada')
@@ -77,7 +79,7 @@ app.delete('/eliminar-solicitud/:id',(req,res)=>{
     const id= req.params
     const sql =`DELETE FROM solicitudes where idsolicitudes = ${id.id} `
     
-    conectBD.query(sql,err=>{
+    BD.query(sql,err=>{
         if (err) throw err
 
         res.send ('solicitud eliminada')
