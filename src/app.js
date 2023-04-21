@@ -1,6 +1,15 @@
 import express from 'express'
-import { BD } from './db.js'
 import { PORT } from './config.js'
+import mysql from 'mysql'
+
+
+
+const conectBD = mysql.createConnection({
+    host: 'localhost',
+    user: 'root' ,
+    password: 'root',
+    database:'integrador'
+});
 
 
 const app = express() //activamos express al servidor
@@ -17,9 +26,9 @@ app.use((req, res, next) => {
 // creamos nuestras urls 
 
 app.get('/solicitud',(req,res)=>{
-    let mysql='SELECT * FROM solicitudes'
+    let sql='SELECT * FROM solicitudes'
 
-    BD.query(mysql,(err,resuls)=>{
+    conectBD.query(sql,(err,resuls)=>{
         if(err) throw err
         if (resuls.length>0){
             res.json(resuls)
@@ -33,7 +42,7 @@ app.get('/solicitud',(req,res)=>{
 
 
 app.post('/nueva-solicitud',(req,res)=>{
-    const mysql= 'INSERT INTO solicitudes SET ?'
+    const sql= 'INSERT INTO solicitudes SET ?'
 
     const solicitudOBJ={
         idsolicitudes : req.body.idsolicitudes,
@@ -44,7 +53,7 @@ app.post('/nueva-solicitud',(req,res)=>{
         comentario: req.body.comentario,
     }
 
-    BD.query(mysql,solicitudOBJ,err=>{
+    conectBD.query(sql,solicitudOBJ,err=>{
         if (err) throw err
 
         res.send('solicitud añadida con exito')
@@ -55,9 +64,9 @@ app.put('/actualizar-solicitud/:id',(req,res)=>{
     const id=req.params
     const {nombre,correo,telefono,solicitud,comentario}= req.body
 
-    const mysql= `UPDATE solicitudes SET nombre ="${nombre}", correo="${correo}", telefono="${telefono}", solicitud="${solicitud}",comentario="${comentario}" where idsolicitudes = ${id.id}`
+    const sql= `UPDATE solicitudes SET nombre ="${nombre}", correo="${correo}", telefono="${telefono}", solicitud="${solicitud}",comentario="${comentario}" where idsolicitudes = ${id.id}`
     
-    BD.query(mysql, err =>{
+    conectBD.query(sql, err =>{
         if (err) throw err
 
         res.send('solicitud actualizada')
@@ -66,9 +75,9 @@ app.put('/actualizar-solicitud/:id',(req,res)=>{
 
 app.delete('/eliminar-solicitud/:id',(req,res)=>{
     const id= req.params
-    const mysql =`DELETE FROM solicitudes where idsolicitudes = ${id.id} `
+    const sql =`DELETE FROM solicitudes where idsolicitudes = ${id.id} `
     
-    BD.query(mysql,err=>{
+    conectBD.query(sql,err=>{
         if (err) throw err
 
         res.send ('solicitud eliminada')
